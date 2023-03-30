@@ -2,7 +2,9 @@
 package alurastickers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -12,7 +14,7 @@ import java.util.Map;
 
 public class AluraStickers {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws Exception {
  // FAZER UMA CONECÇÃO HTTP E BUSCAR OS TOP 250 FILMES
         String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
         URI endereco = URI.create(url);
@@ -32,8 +34,18 @@ public class AluraStickers {
         List<Map<String, String>> listaDeFilmes = parser.parse(body);
         
  //EXIBIR E MANIPULAR OS DADOS
+        var geradora = new GeradoraDeFigurinhas();
+        
         for (Map<String,String> filme : listaDeFilmes) {
-            System.out.println(filme.get("title"));
+            String urlImagem = filme.get("image");
+            String titulo = filme.get("title");
+            String pontuacao = filme.get("imDbRating");
+            InputStream inputStream = new URL(urlImagem).openStream();
+            String nomeArquivo = titulo + ".png";
+
+            geradora.criar(inputStream, nomeArquivo);
+
+            System.out.println(titulo);
             System.out.println(filme.get("image"));
             System.out.println(filme.get("imDbRating"));
             System.out.println();

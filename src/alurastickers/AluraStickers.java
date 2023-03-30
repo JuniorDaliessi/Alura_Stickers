@@ -1,6 +1,7 @@
 
 package alurastickers;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -39,11 +40,22 @@ public class AluraStickers {
         for (Map<String,String> filme : listaDeFilmes) {
             String urlImagem = filme.get("image");
             String titulo = filme.get("title");
-            String pontuacao = filme.get("imDbRating");
+            double imDbRating = Double.parseDouble(filme.get("imDbRating"));
             InputStream inputStream = new URL(urlImagem).openStream();
             String nomeArquivo = titulo + ".png";
 
-            geradora.criar(inputStream, nomeArquivo);
+            String texto;
+            String nota = String.valueOf(imDbRating);
+            InputStream selo;
+            if (imDbRating >= 8.5 ){
+                texto = titulo+" ("+nota+")";
+                selo = new FileInputStream("entrada/aprovado.png");
+            }else{
+                texto = titulo+" ("+nota+")";
+                selo = new FileInputStream("entrada/reprovado.png");
+            }
+
+            geradora.criar(inputStream, nomeArquivo, texto, selo);
 
             System.out.println(titulo);
             System.out.println(filme.get("image"));

@@ -6,7 +6,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -16,7 +18,8 @@ public class GeradoraDeFigurinhas {
     
     public void criar() throws Exception{
         //LEITURA DE IMAGEM
-        BufferedImage imagemOriginal = ImageIO.read(new File("entrada/Filme.jpg"));
+        InputStream inputStream = new FileInputStream("entrada/Filme.jpg");
+        BufferedImage imagemOriginal = ImageIO.read(inputStream);
         
         //CRIAR UMA NOVA IMAGEM EM MEMÓRIA COM TRANPARENCIA E TAMANHO NOVO
         int largura = imagemOriginal.getWidth();
